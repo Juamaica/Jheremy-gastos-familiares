@@ -1,38 +1,66 @@
+/* =========================================================
+   GASTOS FAMILIARES — Tema "Rosa Editorial"
+   Paleta: blush + rosa profundo + acabado rosa-dorado
+   Tipografía: Playfair Display (títulos) + Inter (cuerpo) + JetBrains Mono (montos)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap');
+
 /* ================= VARIABLES ================= */
 :root {
-  --color-bg: #f4f6fb;
-  --color-surface: #ffffff;
-  --color-primary: #4f46e5;
-  --color-primary-dark: #3730a3;
-  --color-secondary: #06b6d4;
-  --color-text: #1f2937;
-  --color-text-light: #6b7280;
-  --color-border: #e5e7eb;
-  --color-danger: #ef4444;
-  --color-success: #10b981;
-  --radius: 12px;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  /* Paleta rosa */
+  --color-bg: #fdf3f6;
+  --color-surface: #fffbfc;
+  --color-primary: #b23a63;       /* rosa vino, protagonista */
+  --color-primary-dark: #7d2848;  /* rosa vino oscuro */
+  --color-secondary: #e8a1b8;     /* rosa suave */
+  --color-gold: #c79a5b;          /* rosa-dorado, detalle fino */
+  --color-text: #3f2530;          /* ciruela oscuro, casi negro */
+  --color-text-light: #a2778a;    /* mauve apagado */
+  --color-border: #f2d7e0;
+  --color-danger: #c9455a;
+  --color-success: #6f9b7d;       /* verde salvia, contraste profesional */
+
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 6px 20px rgba(178, 58, 99, 0.10);
+  --shadow-soft: 0 2px 8px rgba(178, 58, 99, 0.06);
   --transition: 0.2s ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: var(--font-body);
   background: var(--color-bg);
   color: var(--color-text);
-  line-height: 1.5;
+  line-height: 1.55;
+  /* textura muy sutil de papel */
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(232, 161, 184, 0.10), transparent 45%),
+    radial-gradient(circle at 100% 100%, rgba(199, 154, 91, 0.06), transparent 40%);
 }
 
 .section-title {
-  font-size: 1.4rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
   color: var(--color-primary-dark);
+  letter-spacing: 0.01em;
 }
 
 .section-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
   font-size: 1.1rem;
   margin-bottom: 0.8rem;
+  color: var(--color-primary);
 }
 
 /* ================= HEADER ================= */
@@ -42,16 +70,19 @@ body {
   justify-content: space-between;
   background: var(--color-surface);
   padding: 1rem 1.5rem;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-soft);
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
 .header__logo {
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--color-primary-dark);
+  letter-spacing: 0.01em;
 }
 
 .nav {
@@ -63,11 +94,29 @@ body {
   text-decoration: none;
   color: var(--color-text);
   font-weight: 500;
+  font-size: 0.95rem;
+  position: relative;
+  padding-bottom: 2px;
   transition: color var(--transition);
+}
+
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width var(--transition);
 }
 
 .nav__link:hover {
   color: var(--color-primary);
+}
+
+.nav__link:hover::after {
+  width: 100%;
 }
 
 /* Hamburguesa (oculta en escritorio) */
@@ -86,7 +135,7 @@ body {
   display: block;
   height: 3px;
   width: 100%;
-  background: var(--color-text);
+  background: var(--color-primary-dark);
   border-radius: 2px;
   transition: transform var(--transition), opacity var(--transition);
 }
@@ -107,14 +156,26 @@ body {
 
 /* ================= FAMILIA CARD ================= */
 .familia-card {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1.6rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
   color: #fff;
   box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* filo dorado fino, detalle "profesional" */
+.familia-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  pointer-events: none;
 }
 
 .familia-card__foto img {
@@ -123,23 +184,26 @@ body {
   border-radius: 50%;
   object-fit: cover;
   background: rgba(255, 255, 255, 0.3);
-  border: 3px solid #fff;
+  border: 3px solid var(--color-gold);
 }
 
 .familia-card__info h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
   margin-bottom: 0.6rem;
 }
 
 /* ================= BOTONES ================= */
 .btn {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border-radius: var(--radius);
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
   border: none;
   cursor: pointer;
+  font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9rem;
-  transition: transform var(--transition), background var(--transition);
+  transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
 }
 
 .btn:hover { transform: translateY(-1px); }
@@ -147,29 +211,31 @@ body {
 .btn--primary {
   background: var(--color-primary);
   color: #fff;
+  box-shadow: 0 4px 12px rgba(178, 58, 99, 0.25);
 }
 
 .btn--primary:hover { background: var(--color-primary-dark); }
 
 .btn--secondary {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
   color: #fff;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
 .btn--ghost {
   background: transparent;
   color: var(--color-text-light);
   border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 .btn--small {
-  padding: 0.35rem 0.7rem;
+  padding: 0.35rem 0.8rem;
   font-size: 0.8rem;
 }
 
-.btn--edit { background: var(--color-secondary); color: #fff; }
-.btn--delete { background: var(--color-danger); color: #fff; }
+.btn--edit { background: var(--color-gold); color: #fff; border-radius: var(--radius-sm); }
+.btn--delete { background: var(--color-danger); color: #fff; border-radius: var(--radius-sm); }
 
 /* ================= STATS GRID ================= */
 .stats-grid {
@@ -182,48 +248,60 @@ body {
 .stat-card {
   background: var(--color-surface);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-border);
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+  border-top: 3px solid var(--color-secondary);
 }
 
 .stat-card__label {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-text-light);
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
+  font-weight: 600;
 }
 
 .stat-card__value {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--color-primary-dark);
 }
 
 /* ================= CATEGORIAS BREAKDOWN ================= */
 .categorias-breakdown {
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 1.2rem;
-  box-shadow: var(--shadow);
+  padding: 1.3rem;
+  box-shadow: var(--shadow-soft);
 }
 
 .categoria-bar {
-  margin-bottom: 0.9rem;
+  margin-bottom: 1rem;
 }
 
 .categoria-bar__label {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.35rem;
   color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.categoria-bar__label span:last-child {
+  font-family: var(--font-mono);
+  color: var(--color-text);
 }
 
 .categoria-bar__track {
   background: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: 20px;
   overflow: hidden;
   height: 10px;
@@ -231,7 +309,7 @@ body {
 
 .categoria-bar__fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary), var(--color-gold));
   border-radius: 20px;
   transition: width 0.4s ease;
 }
@@ -240,9 +318,10 @@ body {
 .form-section,
 .lista-section {
   background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 1.2rem;
-  box-shadow: var(--shadow);
+  padding: 1.3rem;
+  box-shadow: var(--shadow-soft);
 }
 
 .form-gasto {
@@ -254,20 +333,35 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.35rem;
 }
 
 .form-group label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .form-group input,
 .form-group select {
-  padding: 0.6rem;
+  padding: 0.65rem 0.75rem;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 0.95rem;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(178, 58, 99, 0.15);
+  background: var(--color-surface);
 }
 
 .form-actions {
@@ -289,15 +383,32 @@ body {
 .tabla-gastos th,
 .tabla-gastos td {
   text-align: left;
-  padding: 0.7rem;
+  padding: 0.75rem 0.7rem;
   border-bottom: 1px solid var(--color-border);
   font-size: 0.9rem;
 }
 
 .tabla-gastos th {
-  color: var(--color-text-light);
+  color: var(--color-primary-dark);
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  border-bottom: 2px solid var(--color-secondary);
+}
+
+.tabla-gastos tbody tr {
+  transition: background var(--transition);
+}
+
+.tabla-gastos tbody tr:hover {
+  background: rgba(232, 161, 184, 0.08);
+}
+
+.tabla-gastos td.monto {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-primary-dark);
 }
 
 .tabla-gastos td .acciones {
@@ -311,6 +422,7 @@ body {
   padding: 1.5rem;
   color: var(--color-text-light);
   font-size: 0.8rem;
+  border-top: 1px solid var(--color-border);
 }
 
 /* ================= RESPONSIVE ================= */
@@ -370,6 +482,7 @@ body {
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     padding: 0.6rem;
+    background: var(--color-surface);
   }
 
   .tabla-gastos td {
